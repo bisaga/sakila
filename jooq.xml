@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.10.0.xsd">
+    <!-- Configure the database connection here -->
+    <!-- TRACE, DEBUG, INFO, WARN, ERROR, FATAL -->
+    <logging>INFO</logging>
+    <jdbc>
+        <driver>org.postgresql.Driver</driver>
+        <url>jdbc:postgresql://localhost:5432/sakila</url>
+        <user>postgres</user>
+        <password>postgres</password>
+    </jdbc>
+
+    <generator>
+        <!-- The default code generator. You can override this one, to generate your own code style.
+             Supported generators:
+             - org.jooq.util.JavaGenerator
+             - org.jooq.util.ScalaGenerator
+             Defaults to org.jooq.util.JavaGenerator -->
+        <name>org.jooq.util.JavaGenerator</name>
+
+        <database>
+            <!-- The database type. The format here is:
+                 org.util.[database].[database]Database -->
+            <name>org.jooq.util.postgres.PostgresDatabase</name>
+
+            <!-- The database schema (or in the absence of schema support, in your RDBMS this
+                 can be the owner, user, database name) to be generated -->
+
+            <inputSchema>public</inputSchema>
+
+            <!-- All elements that are generated from your schema
+                 (A Java regular expression. Use the pipe to separate several expressions)
+                 Watch out for case-sensitivity. Depending on your database, this might be important! -->
+            <includes>.*</includes>
+
+            <!-- All elements that are excluded from your schema
+                 (A Java regular expression. Use the pipe to separate several expressions).
+                 Excludes match before includes -->
+            <excludes></excludes>
+        </database>
+
+        <generate>
+            <pojos>true</pojos>
+            <daos>true</daos>
+        </generate>
+
+        <target>
+            <!-- The destination package of your generated classes (within the destination directory) -->
+            <packageName>com.bisaga.sakila.dbmodel</packageName>
+
+            <!-- The destination directory of your generated classes. Using Maven directory layout here -->
+            <directory>./database</directory>
+            <encoding>UTF-8</encoding>
+        </target>
+    </generator>
+</configuration>
