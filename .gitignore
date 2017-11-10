@@ -3,6 +3,8 @@
 *.jar
 *.war
 *.ear
+generated/
+
 
 # IntelliJ
 *.iml
@@ -10,3 +12,4 @@
 *.iws
 .idea/
 out/
+
