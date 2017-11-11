@@ -1,5 +1,6 @@
 package com.bisaga.sakila.server;
 
+import com.bisaga.sakila.dagger.ApplicationComponent;
 import com.bisaga.sakila.dagger.RequestComponent;
 import spark.Filter;
 import spark.Request;
@@ -19,8 +20,8 @@ public class StatisticsAfterFilter implements Filter {
 
     @Override
     public void handle(Request request, Response response) throws Exception {
-        ((RequestComponent) request.attribute(RequestComponent.REQUEST_COMPONENT_ATTR_NAME))
-                .requestStatistics()
+        ((RequestSession) request.attribute(ApplicationComponent.REQUEST_SESSION_ATTR_NAME))
+                .getRequestStatistics()
                 .setRequestEndTime(System.currentTimeMillis());
     }
 }

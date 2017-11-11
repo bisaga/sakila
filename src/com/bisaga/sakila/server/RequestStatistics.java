@@ -1,11 +1,8 @@
 package com.bisaga.sakila.server;
 
-import com.bisaga.sakila.dagger.RequestScope;
-
 import javax.inject.Inject;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@RequestScope
 public class RequestStatistics {
 
     static AtomicInteger requestCount = new AtomicInteger(0);

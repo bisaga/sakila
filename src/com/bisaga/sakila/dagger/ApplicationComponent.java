@@ -1,9 +1,8 @@
 package com.bisaga.sakila.dagger;
 
 import com.bisaga.sakila.Application;
-import com.bisaga.sakila.spark.ExceptionHandlerRegistry;
-import com.bisaga.sakila.spark.FilterRegistry;
-import com.bisaga.sakila.spark.ResourceRegistry;
+import com.bisaga.sakila.server.ConfigProperties;
+import com.bisaga.sakila.server.RequestSession;
 
 import dagger.Component;
 import javax.inject.Singleton;
@@ -12,13 +11,13 @@ import javax.inject.Singleton;
 @Component(modules = {ApplicationModule.class})
 public interface ApplicationComponent {
 
-    void inject(Application application);
+    // we first need to create instance of Application on which we will inject dagger into
+    Application application();
 
-    ResourceRegistry resourceRegistry();
-    ExceptionHandlerRegistry exceptionHandlerRegistry();
-    FilterRegistry filterRegistry();
+    // We will need new instance of RequestSession for each user requests (save instance to the request attributes)
+    String REQUEST_SESSION_ATTR_NAME = "requestSession";
+    RequestSession requestSession();
 
-    // Parent component is obliged to declare Subcomponents getters inside its interface.
-    // RequestComponent is subcomponent with limited scope (RequestScope)
-    RequestComponent requestComponent(RequestModule requestModule);
+    // Parent component is obliged to declare sub components getters inside its interface (RequestScope component)
+    RequestComponent requestComponent();
 }

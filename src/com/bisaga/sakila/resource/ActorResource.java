@@ -1,10 +1,12 @@
 package com.bisaga.sakila.resource;
 
 import com.bisaga.sakila.Application;
+import com.bisaga.sakila.dagger.ApplicationComponent;
 import com.bisaga.sakila.dagger.RequestComponent;
 import com.bisaga.sakila.dagger.RequestScope;
 import com.bisaga.sakila.dbmodel.tables.daos.ActorDao;
 import com.bisaga.sakila.dbmodel.tables.pojos.Actor;
+import com.bisaga.sakila.server.ConfigProperties;
 import com.bisaga.sakila.server.RequestSession;
 import org.jooq.Configuration;
 import org.jooq.SQLDialect;
@@ -26,18 +28,19 @@ import java.util.UUID;
 public class ActorResource {
     private static final Logger LOG = LoggerFactory.getLogger(ActorResource.class);
     private final UUID instanceId;
-
-    private RequestSession requestSession;
+    private final ConfigProperties configProperties;
 
     @Inject
-    public ActorResource(RequestSession requestSession){
+    public ActorResource(
+            ConfigProperties configProperties
+    ){
+        this.configProperties = configProperties;
         instanceId = UUID.randomUUID();
-        this.requestSession = requestSession;
     };
 
     public String getSessionId(Request request, Response response) {
-        RequestComponent requestComponent = request.attribute("requestComponent");
-        return instanceId.toString() + " ...... " +  requestComponent.requestSession().getSessionId();
+        RequestSession requestSession = request.attribute(ApplicationComponent.REQUEST_SESSION_ATTR_NAME);
+        return String.format("{RequestSession: %s, ActorResource: %s, ConfigProperties: %s}", requestSession.getSessionId(), instanceId.toString(), configProperties.getInstanceId());
     }
 
     public List<Actor> getActors(Request request, Response response)

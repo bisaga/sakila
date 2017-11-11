@@ -1,54 +1,46 @@
 package com.bisaga.sakila;
 
 import com.bisaga.sakila.dagger.ApplicationComponent;
-import com.bisaga.sakila.dagger.DaggerApplicationComponent;
-import com.bisaga.sakila.dagger.RequestComponent;
-import com.bisaga.sakila.dagger.RequestModule;
+import com.bisaga.sakila.spark.ExceptionHandlerRegistry;
+import com.bisaga.sakila.spark.FilterRegistry;
+import com.bisaga.sakila.spark.ResourceRegistry;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class Application {
-    private static ApplicationComponent applicationComponent;
+    // dagger application component instance
+    public static ApplicationComponent applicationComponent;
 
-    public static ApplicationComponent getApplicationComponent(){
-        return applicationComponent;
-    }
+    // instances injected in constructor
+    private ResourceRegistry resourceRegistry;
+    private ExceptionHandlerRegistry exceptionHandlerRegistry;
+    private FilterRegistry filterRegistry;
 
-    public static RequestComponent getRequestComponent() {
-        return applicationComponent.requestComponent(new RequestModule());
-    }
-    public static RequestComponent acquire() {
-        return Application.getRequestComponent();
-    }
 
+    @Inject
+    public Application(
+            ResourceRegistry resourceRegistry,
+            ExceptionHandlerRegistry exceptionHandlerRegistry,
+            FilterRegistry filterRegistry
+    ) {
+        this.resourceRegistry = resourceRegistry;
+        this.exceptionHandlerRegistry = exceptionHandlerRegistry;
+        this.filterRegistry = filterRegistry;
+    }
 
     public void start(){
-        //initialize dagger
-        initializeDagger();
-
         //register exception handlers
-        registerExceptionHandlers();
+        exceptionHandlerRegistry.registerHandlers();
 
         //register our filters
-        registerFilters();
+        filterRegistry.registerFilters();
 
         //register routes
-        registerRoutes();
-
+        resourceRegistry.registerRoutes();
     }
 
-    private void initializeDagger() {
-        applicationComponent = DaggerApplicationComponent.builder().build();
-        applicationComponent.inject(this);
-    }
 
-    private void registerExceptionHandlers() {
-        applicationComponent.exceptionHandlerRegistry().registerHandlers();
-    }
 
-    private void registerFilters() {
-        applicationComponent.filterRegistry().registerFilters();
-    }
-
-    private void registerRoutes(){
-        applicationComponent.resourceRegistry().registerRoutes();
-    }
 }

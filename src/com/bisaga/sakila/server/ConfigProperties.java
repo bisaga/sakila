@@ -3,17 +3,24 @@ package com.bisaga.sakila.server;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class ConfigProperties {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigProperties.class);
-
+    private final RuntimeEnvironment runtimeEnvironment;
     private Properties properties = new Properties();
 
-    public ConfigProperties() {
+    @Inject
+    public ConfigProperties(RuntimeEnvironment runtimeEnvironment) {
+        this.runtimeEnvironment = runtimeEnvironment;
+
         // load resource file config.properties which is in src/main/resources of current project folder
         loadFromResource();
     }
@@ -39,12 +46,16 @@ public class ConfigProperties {
     }
 
     private void loadFromResource() {
-        InputStream in = getClass().getResourceAsStream("/config.properties");
+        // read production, development or test configuration from the resources
+        String resourceName = String.format("/config.%s.properties", runtimeEnvironment.toString().toLowerCase());
+        InputStream in = getClass().getResourceAsStream(resourceName);
         try {
             properties.load(in);
         } catch (IOException e) {
-            LOG.error("File 'config.properties' missing.", e);
+            LOG.error(String.format("File %s not found.", resourceName), e);
         }
     }
 
+    private final UUID instanceId = UUID.randomUUID();
+    public UUID getInstanceId(){return instanceId;}
 }

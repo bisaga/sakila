@@ -1,7 +1,6 @@
 package com.bisaga.sakila.server;
 
-import com.bisaga.sakila.dagger.RequestComponent;
-import com.bisaga.sakila.server.RequestStatistics;
+import com.bisaga.sakila.dagger.ApplicationComponent;
 import spark.Filter;
 import spark.Request;
 import spark.Response;
@@ -18,9 +17,11 @@ public class StatisticsAfterAfterFilter implements Filter {
 
     @Override
     public void handle(Request request, Response response) throws Exception {
-        long requestTotalTime = ((RequestComponent) request.attribute(RequestComponent.REQUEST_COMPONENT_ATTR_NAME))
-                .requestStatistics()
-                .getTotalRequestTime();
+        RequestSession requestSession = request.attribute(ApplicationComponent.REQUEST_SESSION_ATTR_NAME);
+        RequestStatistics requestStatistics = requestSession.getRequestStatistics();
+        long requestTotalTime = requestStatistics.getTotalRequestTime();
+
+        response.header("requestSessionId", String.valueOf(requestSession.getSessionId()));
         response.header("requestTime", String.valueOf(requestTotalTime));
         response.header("requestCount", String.valueOf(RequestStatistics.requestCount.get()));
     }
