@@ -51,10 +51,6 @@ public class ResourceRegistry {
                 (req, res) -> Application.applicationComponent.requestComponent().actorResource().getActors(req, res),
                 responseTransformer);
 
-        get("/actorsSession", "application/json",
-                (req, res) -> Application.applicationComponent.requestComponent().actorResource().getSessionId(req, res),
-                 responseTransformer);
-
         get("/global", "application/json",
                 (req, res) -> globalResourceProvider.get().id(req, res), responseTransformer);
 
