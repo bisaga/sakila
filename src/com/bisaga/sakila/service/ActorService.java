@@ -33,5 +33,7 @@ public class ActorService {
     public List<Actor> getActors() {
         return actorDao.findAll();
     }
-
+    public Actor getActor(int id) {
+        return actorDao.fetchOneByActorId(id);
+    }
 }

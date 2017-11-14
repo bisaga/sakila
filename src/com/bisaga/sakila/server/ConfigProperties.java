@@ -12,21 +12,17 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class ConfigProperties {
+public class ConfigProperties extends Properties {
     private static final Logger LOG = LoggerFactory.getLogger(ConfigProperties.class);
-    private final RuntimeEnvironment runtimeEnvironment;
-    private Properties properties = new Properties();
 
     @Inject
     public ConfigProperties(RuntimeEnvironment runtimeEnvironment) {
-        this.runtimeEnvironment = runtimeEnvironment;
+
+        // read production, development or test configuration from the resources
+        String resourceName = String.format("/config.%s.properties", runtimeEnvironment.toString().toLowerCase());
 
         // load resource file config.properties which is in src/main/resources of current project folder
-        loadFromResource();
-    }
-
-    protected String getProperty(String propertyName) {
-        return properties.getProperty(propertyName);
+        loadFromResource(resourceName);
     }
 
     public Integer getIntProperty(String propertyName) {
@@ -41,21 +37,13 @@ public class ConfigProperties {
         return numVal;
     }
 
-    public String getStringProperty(String propertyName) {
-        return this.getProperty(propertyName);
-    }
-
-    private void loadFromResource() {
-        // read production, development or test configuration from the resources
-        String resourceName = String.format("/config.%s.properties", runtimeEnvironment.toString().toLowerCase());
+    private void loadFromResource(String resourceName) {
         InputStream in = getClass().getResourceAsStream(resourceName);
         try {
-            properties.load(in);
+            this.load(in);
         } catch (IOException e) {
             LOG.error(String.format("File %s not found.", resourceName), e);
         }
     }
 
-    private final UUID instanceId = UUID.randomUUID();
-    public UUID getInstanceId(){return instanceId;}
 }
