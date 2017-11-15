@@ -15,15 +15,15 @@ public final class JooqConfigBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(JooqConfigBuilder.class);
 
     private final ConfigProperties configProperties;
-    private final Connection connection;
+    private final Transaction transaction;
 
     @Inject
     public JooqConfigBuilder(
             ConfigProperties configProperties,
-            Connection connection) {
+            Transaction transaction) {
 
         this.configProperties = configProperties;
-        this.connection = connection;
+        this.transaction = transaction;
     }
 
     public final Configuration build() {
@@ -32,7 +32,7 @@ public final class JooqConfigBuilder {
         String sDialect = configProperties.getProperty("sakila.database.sqldialect");
         SQLDialect dialect = SQLDialect.valueOf(sDialect);
 
-        configuration.set(connection);
+        configuration.set(transaction.getConnection());
         configuration.set(dialect);
 
         // TODO default listeners

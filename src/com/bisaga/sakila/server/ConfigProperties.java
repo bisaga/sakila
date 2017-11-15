@@ -5,9 +5,11 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.UUID;
 
+import com.bisaga.sakila.errors.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -42,7 +44,7 @@ public class ConfigProperties extends Properties {
         try {
             this.load(in);
         } catch (IOException e) {
-            LOG.error(String.format("File %s not found.", resourceName), e);
+            throw new ResourceNotFoundException(resourceName);
         }
     }
 
