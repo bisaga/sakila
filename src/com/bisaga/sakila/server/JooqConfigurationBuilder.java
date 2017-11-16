@@ -8,17 +8,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-import java.sql.Connection;
 
 @RequestScope
-public final class JooqConfigBuilder {
-    private static final Logger LOG = LoggerFactory.getLogger(JooqConfigBuilder.class);
+public final class JooqConfigurationBuilder {
+    private static final Logger LOG = LoggerFactory.getLogger(JooqConfigurationBuilder.class);
 
     private final ConfigProperties configProperties;
     private final Transaction transaction;
 
     @Inject
-    public JooqConfigBuilder(
+    public JooqConfigurationBuilder(
             ConfigProperties configProperties,
             Transaction transaction) {
 

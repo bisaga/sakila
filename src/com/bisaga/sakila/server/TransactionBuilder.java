@@ -13,11 +13,13 @@ import java.sql.SQLException;
 @RequestScope
 public final class TransactionBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(TransactionBuilder.class);
-    private HikariDataSource dataSource;        // Hikari Connection Pool
+    private final HikariDataSource dataSource;        // Hikari Connection Pool
+    private final ConfigProperties configProperties;
 
     @Inject
-    public TransactionBuilder(HikariDataSource dataSource) {
+    public TransactionBuilder(HikariDataSource dataSource, ConfigProperties configProperties) {
         this.dataSource = dataSource;
+        this.configProperties = configProperties;
     }
 
     public final Transaction create(boolean autoCommit) {
