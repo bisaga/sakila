@@ -27,25 +27,42 @@ public class ActorResource {
         this.actorService = actorService;
     };
 
-    public List<Actor> getActors(Request request, Response response) {
+    public Actor getActor(Request request, Response response) {
         try {
-            // Analyse & extract request parameters
 
-            // Call services with parameters (if any)
-            List<Actor> actors = actorService.getActors();
+            // Analyse & extract request parameters
+            // /actor/43 - actor identifier parameter /actor/:id
+            String strId = request.params(":id");
+            int id = Integer.parseInt( strId );
+
+            // when we want to control multiple SQL statements with final commit we need to start transaction
+            transaction.begin();
+
+            Actor actor = actorService.getActor(id);
 
             // Commit transaction and release the underline connection to the pool
             transaction.commit();
 
             // Return list, it will be transformed by GsonTransformer and returned to the browser as Json
-            return actors;
+            return actor;
 
-        // Catch expected business exceptions and throw them with meaningful messages and present them to the customer
+            // Catch expected business exceptions and throw them with meaningful messages and present them to the customer
         } catch (Exception e) {
             // Rollback transaction and release the underline connection to the pool
             transaction.rollback();
             // rethrow all exceptions to master exception handler which create response for the customer
             throw e;
         }
+    }
+
+    public List<Actor> getActors(Request request, Response response) {
+        // Analyse & extract request parameters
+        // /actors?page=2 - which page to display as result
+        String page = request.queryParams("page");
+
+        List<Actor> actors = actorService.getActors();
+
+        // Return list, it will be transformed by GsonTransformer and returned to the browser as Json
+        return actors;
     }
 }

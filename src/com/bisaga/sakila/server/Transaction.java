@@ -21,6 +21,14 @@ public final class Transaction {
         this.connection = connection;
     }
 
+    public final void begin() {
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
+
     public final void setAutoCommit(boolean autoCommit) {
         try {
             connection.setAutoCommit(autoCommit);
@@ -37,13 +45,6 @@ public final class Transaction {
             throw new DatabaseException(e);
         }
     }
-
-/*
-    public final void rollback(Exception e) {
-        this.rollback();
-        throw (RuntimeException) e;         // propagate up as unchecked exception
-    }
-*/
 
     public final void rollback() {
         try {
@@ -86,6 +87,16 @@ public final class Transaction {
             throw new DatabaseException(e);
         }
     }
+
+    public final void setReadOnly(boolean readOnly)
+    {
+        try {
+            connection.setReadOnly(readOnly);
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
+
 
     public Connection getConnection() {
         return connection;

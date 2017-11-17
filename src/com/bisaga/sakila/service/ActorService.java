@@ -27,6 +27,10 @@ public class ActorService {
         return actorDao.findAll();
     }
 
+    public List<Actor> getActors(int page) {
+        return actorDao.findAll();
+    }
+
     public Actor getActor(int id) {
         return actorDao.fetchOneByActorId(id);
     }

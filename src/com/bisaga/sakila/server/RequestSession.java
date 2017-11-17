@@ -4,14 +4,14 @@ import javax.inject.Inject;
 import java.util.UUID;
 
 public class RequestSession {
-    private final UUID instanceId;
+    private final UUID sessionId;
     private final RequestStatistics requestStatistics;
 
     @Inject
     public RequestSession(
             RequestStatistics requestStatistics
     ){
-        instanceId = UUID.randomUUID();
+        sessionId = UUID.randomUUID();
         this.requestStatistics = requestStatistics;
     }
 
@@ -20,6 +20,6 @@ public class RequestSession {
     }
 
     public String getSessionId() {
-        return instanceId.toString();
+        return sessionId.toString();
     }
 }

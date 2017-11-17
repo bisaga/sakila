@@ -16,21 +16,12 @@ import javax.inject.Named;
 public class RequestModule {
 
     // Provides primary transaction/connection for the whole time request ran (loaded at the first component needs)
-    // Because it is request scoped, it will be called only once, any other time the request scoped instance will return
+    // Because it is request scoped, it will be called only once, any other time the request scoped instance will be returned
     @Provides
     @RequestScope
     public static Transaction provideTransaction(TransactionBuilder transactionBuilder) {
-        return transactionBuilder.create(false);    // default autoCommit=False, commit/rollback must be called manually
+        return transactionBuilder.create(true);    // if autoCommit=false, commit/rollback must be called manually
     }
-
-    // TODO this is questionable. Research if is possible to use Provider<Transaction> or just call provideTransaction ?
-    // Provides new instances (secondary) connections from the connection pool, this are used beside central request transaction
-    @Provides
-    @Named("create")
-    public static Transaction createTransaction(TransactionBuilder transactionBuilder) {
-        return transactionBuilder.create(true);    // default autoCommit=true, can be changed
-    }
-
 
     // Default configuration with transactions enabled, this is RequestScoped default database connection
     @Provides

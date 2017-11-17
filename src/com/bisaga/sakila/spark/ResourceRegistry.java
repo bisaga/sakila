@@ -1,11 +1,6 @@
 package com.bisaga.sakila.spark;
 
 import com.bisaga.sakila.Application;
-import com.bisaga.sakila.dagger.ApplicationComponent;
-import com.bisaga.sakila.dagger.RequestComponent;
-import com.bisaga.sakila.dagger.RequestModule;
-import com.bisaga.sakila.resource.ActorResource;
-import com.bisaga.sakila.resource.GlobalResource;
 import spark.ResponseTransformer;
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -28,31 +23,32 @@ import static spark.Spark.*;
  */
 @Singleton
 public class ResourceRegistry {
-    private final UUID instanceId;
 
     // injected dependencies
     private final ResponseTransformer responseTransformer;
-    private final Provider<GlobalResource> globalResourceProvider;
 
     @Inject
-    ResourceRegistry(ResponseTransformer responseTransformer
-                     , Provider<GlobalResource> globalResourceProvider
-    ){
-        this.instanceId = UUID.randomUUID();
+    ResourceRegistry(ResponseTransformer responseTransformer){
         this.responseTransformer = responseTransformer;
-        this.globalResourceProvider = globalResourceProvider;
     }
 
     public void registerRoutes(){
 
         get("/actors", "application/json",
-                // the resource is from another scope (sub-component scope is not visible from parent scope)
-                // we really want to use new instance for each user request, no singletons here
+                // the resource is from another scope (sub-component scope is not visible from the parent scope)
+                // we really want to use new instance for each user request, no singletons here !
                 (req, res) -> Application.applicationComponent.requestComponent().actorResource().getActors(req, res),
                 responseTransformer);
 
-        get("/global", "application/json",
-                (req, res) -> globalResourceProvider.get().id(req, res), responseTransformer);
+        get("/actors/:page", "application/json",
+                // call to the service with page parameter (return only a specified page of rows)
+                (req, res) -> Application.applicationComponent.requestComponent().actorResource().getActors(req, res),
+                responseTransformer);
+
+        get("/actor/:id", "application/json",
+                (req, res) -> Application.applicationComponent.requestComponent().actorResource().getActor(req, res),
+                responseTransformer);
+
 
         /*
         post("/people", "application/json", peopleResource::createPerson, responseTransformer);
