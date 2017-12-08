@@ -2,6 +2,7 @@ package com.bisaga.sakila.spark;
 
 import com.bisaga.sakila.Application;
 import com.bisaga.sakila.server.RecordTransformer;
+import com.bisaga.sakila.server.RestCodes;
 import com.bisaga.sakila.server.ResultTransformer;
 import spark.ResponseTransformer;
 import javax.inject.Inject;
@@ -24,7 +25,7 @@ import static spark.Spark.*;
 public class ResourceRegistry {
 
     // injected dependencies
-    private final ResponseTransformer responseTransformer;
+    private final ResponseTransformer responseTransformer;      // default transformer is GsonTransformer
     private final ResultTransformer resultTransformer;
     private final RecordTransformer recordTransformer;
 
@@ -41,21 +42,21 @@ public class ResourceRegistry {
 
     public void registerRoutes(){
 
-        get("/actor/:id", "application/json",
+        get("/actor/:id", RestCodes.APPLICATION_JSON,
                 // the resource (actorResource) is from another scope (sub-component scope is not visible from the
                 // parent scope). We really want to use new instance for each user request, no singletons here !
                 (req, res) -> Application.applicationComponent.requestComponent().actorResource().getActor(req, res),
                 recordTransformer);
 
-        put("/actor", "application/json",
+        put("/actor", RestCodes.APPLICATION_JSON,
                 (req, res) -> Application.applicationComponent.requestComponent().actorResource().putActor(req, res),
                 responseTransformer);
 
-        post("/actors", "application/json",
+        post("/actors", RestCodes.APPLICATION_JSON,
                 (req, res) -> Application.applicationComponent.requestComponent().actorResource().viewActors(req, res),
                 resultTransformer);
 
-        get("/allactors", "application/json",
+        get("/allactors", RestCodes.APPLICATION_JSON,
                 (req, res) -> Application.applicationComponent.requestComponent().actorResource().getAllActors(req, res),
                 resultTransformer);
 

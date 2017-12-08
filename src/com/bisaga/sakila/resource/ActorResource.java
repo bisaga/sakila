@@ -1,29 +1,26 @@
 package com.bisaga.sakila.resource;
 
 import com.bisaga.sakila.dagger.RequestScope;
-import com.bisaga.sakila.dbmodel.tables.Actor;
 import com.bisaga.sakila.dbmodel.tables.records.ActorRecord;
 import com.bisaga.sakila.errors.ResourceNotFoundException;
 import com.bisaga.sakila.server.QueryBuildParams;
+import com.bisaga.sakila.server.RecordsAffected;
+import com.bisaga.sakila.server.ResponseMessage;
 import com.bisaga.sakila.server.Transaction;
 import com.bisaga.sakila.service.ActorQueryService;
 import com.bisaga.sakila.service.ActorService;
 import com.bisaga.sakila.service.TableQueryService;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.jooq.DSLContext;
 import org.jooq.Result;
-import org.jooq.tools.json.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Request;
 import spark.Response;
 
 import javax.inject.Inject;
-import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 import static com.bisaga.sakila.dbmodel.tables.Actor.ACTOR;
@@ -58,7 +55,7 @@ public class ActorResource {
         this.actorQueryService = actorQueryService;
     }
 
-    public int putActor(Request request, Response response) {
+    public RecordsAffected putActor(Request request, Response response) {
         int ret = 0;
         String action = "";
 
@@ -84,7 +81,8 @@ public class ActorResource {
 
         // Commit an open transaction and release the underline connection to the connection pool
         transaction.commit();
-        return ret;
+
+        return new RecordsAffected(ret);
     }
 
     public ActorRecord getActor(Request request, Response response) {
@@ -106,7 +104,7 @@ public class ActorResource {
     }
 
 
-    // Query support with paging support
+    // Query with paging support
     public Result viewActors(Request request, Response response) {
         QueryBuildParams qbp = QueryBuildParams.deserialize(request.body());
         return tableQueryService.execute(qbp);
