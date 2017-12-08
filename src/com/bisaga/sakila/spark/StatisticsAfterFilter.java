@@ -1,7 +1,8 @@
-package com.bisaga.sakila.server;
+package com.bisaga.sakila.spark;
 
 import com.bisaga.sakila.dagger.ApplicationComponent;
 import com.bisaga.sakila.dagger.RequestComponent;
+import com.bisaga.sakila.server.RequestSession;
 import spark.Filter;
 import spark.Request;
 import spark.Response;

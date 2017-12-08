@@ -1,8 +1,6 @@
 package com.bisaga.sakila.spark;
 
-import com.bisaga.sakila.errors.SakilaException;
-import com.bisaga.sakila.errors.UnhandledRuntimeException;
-import com.bisaga.sakila.errors.UnhandledRuntimeExceptionHandler;
+import com.bisaga.sakila.errors.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -12,18 +10,21 @@ import static spark.Spark.exception;
 @Singleton
 public class ExceptionHandlerRegistry {
 
-    private UnhandledRuntimeExceptionHandler unhandledRuntimeExceptionHandler;
+    private RuntimeExceptionHandler runtimeExceptionHandler;
+    private ResourceNotFoundExceptionHandler resourceNotFoundExceptionHandler;
 
     @Inject
-    public ExceptionHandlerRegistry(UnhandledRuntimeExceptionHandler unhandledRuntimeExceptionHandler){
-        this.unhandledRuntimeExceptionHandler = unhandledRuntimeExceptionHandler;
+    public ExceptionHandlerRegistry(
+            RuntimeExceptionHandler runtimeExceptionHandler,
+            ResourceNotFoundExceptionHandler resourceNotFoundExceptionHandler){
+
+        this.runtimeExceptionHandler = runtimeExceptionHandler;
+        this.resourceNotFoundExceptionHandler = resourceNotFoundExceptionHandler;
     }
 
     public void registerHandlers(){
-        exception(UnhandledRuntimeException.class, unhandledRuntimeExceptionHandler);
-//        exception(SakilaException.class, unhandledRuntimeExceptionHandler);
-        exception(RuntimeException.class, unhandledRuntimeExceptionHandler);
-
+        exception(RuntimeException.class, runtimeExceptionHandler);
+        exception(ResourceNotFoundException.class, resourceNotFoundExceptionHandler);
     }
 
 }

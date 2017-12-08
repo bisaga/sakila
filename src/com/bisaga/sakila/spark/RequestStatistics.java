@@ -1,4 +1,4 @@
-package com.bisaga.sakila.server;
+package com.bisaga.sakila.spark;
 
 import javax.inject.Inject;
 import java.util.concurrent.atomic.AtomicInteger;

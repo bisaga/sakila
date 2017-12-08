@@ -3,7 +3,7 @@ package com.bisaga.sakila.resource;
 import com.bisaga.sakila.dagger.RequestScope;
 import com.bisaga.sakila.dbmodel.tables.Actor;
 import com.bisaga.sakila.dbmodel.tables.records.ActorRecord;
-import com.bisaga.sakila.errors.SakilaException;
+import com.bisaga.sakila.errors.ResourceNotFoundException;
 import com.bisaga.sakila.server.QueryBuildParams;
 import com.bisaga.sakila.server.Transaction;
 import com.bisaga.sakila.service.ActorQueryService;
@@ -94,15 +94,8 @@ public class ActorResource {
         // Call to service layer (domain logic)
         ActorRecord actor = actorService.getActor(id);
 
-        // form result
-        if(actor != null) {
-            response.status(200);
-            response.type("application/json");
-        }
-        else {
-            response.status(404);
-            response.type("application/json");
-        }
+        if(actor == null)
+            throw new ResourceNotFoundException(String.format("Actor: %d not found.", id));
 
         return actor;
     }

@@ -1,5 +1,7 @@
 package com.bisaga.sakila.server;
 
+import com.bisaga.sakila.spark.RequestStatistics;
+
 import javax.inject.Inject;
 import java.util.UUID;
 

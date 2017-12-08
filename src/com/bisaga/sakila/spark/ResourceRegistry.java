@@ -1,6 +1,8 @@
 package com.bisaga.sakila.spark;
 
 import com.bisaga.sakila.Application;
+import com.bisaga.sakila.server.RecordTransformer;
+import com.bisaga.sakila.server.ResultTransformer;
 import spark.ResponseTransformer;
 import javax.inject.Inject;
 import javax.inject.Singleton;

@@ -1,7 +1,7 @@
 package com.bisaga.sakila.errors;
 
-import com.bisaga.sakila.dagger.ApplicationComponent;
 import com.bisaga.sakila.server.RequestSession;
+import com.bisaga.sakila.server.RestCodes;
 import com.bisaga.sakila.server.Transaction;
 import com.google.gson.Gson;
 import spark.ExceptionHandler;
@@ -10,15 +10,14 @@ import spark.Response;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.sql.SQLException;
 
 @Singleton
-public class UnhandledRuntimeExceptionHandler implements ExceptionHandler {
+public class RuntimeExceptionHandler implements ExceptionHandler {
 
     private Gson gson;
 
     @Inject
-    public UnhandledRuntimeExceptionHandler(Gson gson){
+    public RuntimeExceptionHandler(Gson gson){
         this.gson = gson;
     }
 
@@ -31,8 +30,7 @@ public class UnhandledRuntimeExceptionHandler implements ExceptionHandler {
         }
 
         ErrorMessage errorMessage = new ErrorMessage(exception.getMessage());
-        response.status(404);
-        response.type("application/json");
+        RestCodes.setStatus(response, RestCodes.INTERNAL_SERVER_ERROR);
         response.body(gson.toJson(errorMessage));
     }
 }

@@ -1,7 +1,6 @@
 package com.bisaga.sakila.server;
 
 import com.bisaga.sakila.errors.DatabaseException;
-import com.bisaga.sakila.errors.SakilaException;
 
 import javax.inject.Inject;
 import java.sql.Connection;
@@ -33,6 +32,14 @@ public final class Transaction {
     public final void setAutoCommit(boolean autoCommit) {
         try {
             connection.setAutoCommit(autoCommit);
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
+    public final boolean isAutoCommit()
+    {
+        try {
+            return connection.getAutoCommit();
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }
@@ -98,11 +105,21 @@ public final class Transaction {
         }
     }
 
+    public final boolean isReadOnly()
+    {
+        try {
+            return connection.isReadOnly();
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
+
     public Connection getConnection() {
         return connection;
     }
     public boolean isClosed() {
         return !txOpen;
     }
+
 
 }

@@ -1,4 +1,4 @@
-package com.bisaga.sakila.spark;
+package com.bisaga.sakila.server;
 
 import com.google.gson.Gson;
 import org.jooq.Result;

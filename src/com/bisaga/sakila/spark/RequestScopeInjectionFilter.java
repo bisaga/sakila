@@ -1,6 +1,7 @@
-package com.bisaga.sakila.server;
+package com.bisaga.sakila.spark;
 
 import com.bisaga.sakila.dagger.ApplicationComponent;
+import com.bisaga.sakila.server.RequestSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Filter;

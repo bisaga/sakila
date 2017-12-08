@@ -1,9 +1,5 @@
 package com.bisaga.sakila.spark;
 
-import com.bisaga.sakila.server.RequestScopeInjectionFilter;
-import com.bisaga.sakila.server.StatisticsAfterAfterFilter;
-import com.bisaga.sakila.server.StatisticsAfterFilter;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -18,17 +14,20 @@ public class FilterRegistry {
     private final RequestScopeInjectionFilter requestScopeInjectionFilter;
     private final StatisticsAfterFilter statisticsAfterFilter;
     private final StatisticsAfterAfterFilter statisticsAfterAfterFilter;
+    private final ResponseStatusFilter responseStatusFilter;
 
     @Inject
     public FilterRegistry(AuthorizationFilter authorizationFilter,
                           RequestScopeInjectionFilter requestScopeInjectionFilter,
                           StatisticsAfterFilter statisticsAfterFilter,
-                          StatisticsAfterAfterFilter statisticsAfterAfterFilter){
+                          StatisticsAfterAfterFilter statisticsAfterAfterFilter,
+                          ResponseStatusFilter responseStatusFilter){
 
         this.authorizationFilter = authorizationFilter;
         this.requestScopeInjectionFilter = requestScopeInjectionFilter;
         this.statisticsAfterFilter = statisticsAfterFilter;
         this.statisticsAfterAfterFilter = statisticsAfterAfterFilter;
+        this.responseStatusFilter = responseStatusFilter;
     }
 
     public void registerFilters(){
@@ -36,6 +35,8 @@ public class FilterRegistry {
         before(requestScopeInjectionFilter);    // this is running once for each request
 
         before(authorizationFilter);
+
+        after(responseStatusFilter);
 
         after(statisticsAfterFilter);
 

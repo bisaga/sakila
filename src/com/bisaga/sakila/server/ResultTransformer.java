@@ -1,4 +1,4 @@
-package com.bisaga.sakila.spark;
+package com.bisaga.sakila.server;
 
 import org.jooq.JSONFormat;
 import org.jooq.Result;
