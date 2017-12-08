@@ -1,9 +1,7 @@
 package com.bisaga.sakila.dagger;
 
-import com.bisaga.sakila.server.ConfigProperties;
-import com.bisaga.sakila.server.HikariProperties;
-import com.bisaga.sakila.server.RuntimeEnvironment;
-import com.bisaga.sakila.server.GsonTransformer;
+import com.bisaga.sakila.server.*;
+import com.bisaga.sakila.spark.GsonTransformer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zaxxer.hikari.HikariConfig;
@@ -14,7 +12,6 @@ import spark.ResponseTransformer;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
-import java.util.Properties;
 
 
 @Module

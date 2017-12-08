@@ -15,6 +15,7 @@ import java.sql.Savepoint;
  */
 public final class Transaction {
     private final Connection connection;
+    private boolean txOpen = true;
 
     @Inject
     public Transaction(Connection connection) {
@@ -40,7 +41,7 @@ public final class Transaction {
     public final void commit() {
         try {
             connection.commit();
-            connection.close();         // close return connection to the pool
+            txOpen = false;
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }
@@ -49,7 +50,7 @@ public final class Transaction {
     public final void rollback() {
         try {
             connection.rollback();
-            connection.close();         // close return connection to the pool
+            txOpen = false;
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }
@@ -97,9 +98,11 @@ public final class Transaction {
         }
     }
 
-
     public Connection getConnection() {
         return connection;
+    }
+    public boolean isClosed() {
+        return !txOpen;
     }
 
 }

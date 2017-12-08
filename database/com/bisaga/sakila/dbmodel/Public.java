@@ -26,6 +26,7 @@ import com.bisaga.sakila.dbmodel.tables.Rental;
 import com.bisaga.sakila.dbmodel.tables.RewardsReport;
 import com.bisaga.sakila.dbmodel.tables.SalesByFilmCategory;
 import com.bisaga.sakila.dbmodel.tables.SalesByStore;
+import com.bisaga.sakila.dbmodel.tables.SchemaVersion;
 import com.bisaga.sakila.dbmodel.tables.Staff;
 import com.bisaga.sakila.dbmodel.tables.StaffList;
 import com.bisaga.sakila.dbmodel.tables.Store;
@@ -63,7 +64,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-    private static final long serialVersionUID = 476640124;
+    private static final long serialVersionUID = -1685620004;
 
     /**
      * The reference instance of <code>public</code>
@@ -244,6 +245,11 @@ public class Public extends SchemaImpl {
     public final SalesByStore SALES_BY_STORE = com.bisaga.sakila.dbmodel.tables.SalesByStore.SALES_BY_STORE;
 
     /**
+     * The table <code>public.schema_version</code>.
+     */
+    public final SchemaVersion SCHEMA_VERSION = com.bisaga.sakila.dbmodel.tables.SchemaVersion.SCHEMA_VERSION;
+
+    /**
      * The table <code>public.staff</code>.
      */
     public final Staff STAFF = com.bisaga.sakila.dbmodel.tables.Staff.STAFF;
@@ -329,6 +335,7 @@ public class Public extends SchemaImpl {
             RewardsReport.REWARDS_REPORT,
             SalesByFilmCategory.SALES_BY_FILM_CATEGORY,
             SalesByStore.SALES_BY_STORE,
+            SchemaVersion.SCHEMA_VERSION,
             Staff.STAFF,
             StaffList.STAFF_LIST,
             Store.STORE);

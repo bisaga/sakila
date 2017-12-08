@@ -3,10 +3,7 @@ package com.bisaga.sakila.spark;
 import com.bisaga.sakila.Application;
 import spark.ResponseTransformer;
 import javax.inject.Inject;
-import javax.inject.Provider;
 import javax.inject.Singleton;
-
-import java.util.UUID;
 
 import static spark.Spark.*;
 
@@ -26,29 +23,39 @@ public class ResourceRegistry {
 
     // injected dependencies
     private final ResponseTransformer responseTransformer;
+    private final ResultTransformer resultTransformer;
+    private final RecordTransformer recordTransformer;
 
     @Inject
-    ResourceRegistry(ResponseTransformer responseTransformer){
+    ResourceRegistry(
+            ResponseTransformer responseTransformer,
+            ResultTransformer resultTransformer,
+            RecordTransformer recordTransformer
+    ){
         this.responseTransformer = responseTransformer;
+        this.resultTransformer = resultTransformer;
+        this.recordTransformer = recordTransformer;
     }
 
     public void registerRoutes(){
 
-        get("/actors", "application/json",
-                // the resource is from another scope (sub-component scope is not visible from the parent scope)
-                // we really want to use new instance for each user request, no singletons here !
-                (req, res) -> Application.applicationComponent.requestComponent().actorResource().getActors(req, res),
-                responseTransformer);
-
-        get("/actors/:page", "application/json",
-                // call to the service with page parameter (return only a specified page of rows)
-                (req, res) -> Application.applicationComponent.requestComponent().actorResource().getActors(req, res),
-                responseTransformer);
-
         get("/actor/:id", "application/json",
+                // the resource (actorResource) is from another scope (sub-component scope is not visible from the
+                // parent scope). We really want to use new instance for each user request, no singletons here !
                 (req, res) -> Application.applicationComponent.requestComponent().actorResource().getActor(req, res),
+                recordTransformer);
+
+        put("/actor", "application/json",
+                (req, res) -> Application.applicationComponent.requestComponent().actorResource().putActor(req, res),
                 responseTransformer);
 
+        post("/actors", "application/json",
+                (req, res) -> Application.applicationComponent.requestComponent().actorResource().viewActors(req, res),
+                resultTransformer);
+
+        get("/allactors", "application/json",
+                (req, res) -> Application.applicationComponent.requestComponent().actorResource().getAllActors(req, res),
+                resultTransformer);
 
         /*
         post("/people", "application/json", peopleResource::createPerson, responseTransformer);

@@ -17,10 +17,10 @@ public interface ApplicationComponent {
     // Parent component is obliged to declare sub components getters inside its interface (RequestScope component)
     RequestComponent requestComponent();
 
-    // We will need new instance of RequestSession for each user requests (save instance to the request attributes)
+    ConfigProperties configProperties();
+
+    // We will need new instance of RequestSession for each user request (save instance to the request attributes)
     String REQUEST_SESSION_ATTR_NAME = "requestSession";
     RequestSession requestSession();
-
-    ConfigProperties configProperties();
 
 }

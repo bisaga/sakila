@@ -18,6 +18,7 @@ import com.bisaga.sakila.dbmodel.tables.Language;
 import com.bisaga.sakila.dbmodel.tables.Payment;
 import com.bisaga.sakila.dbmodel.tables.Rental;
 import com.bisaga.sakila.dbmodel.tables.RewardsReport;
+import com.bisaga.sakila.dbmodel.tables.SchemaVersion;
 import com.bisaga.sakila.dbmodel.tables.Staff;
 import com.bisaga.sakila.dbmodel.tables.Store;
 import com.bisaga.sakila.dbmodel.tables.records.ActorRecord;
@@ -34,6 +35,7 @@ import com.bisaga.sakila.dbmodel.tables.records.LanguageRecord;
 import com.bisaga.sakila.dbmodel.tables.records.PaymentRecord;
 import com.bisaga.sakila.dbmodel.tables.records.RentalRecord;
 import com.bisaga.sakila.dbmodel.tables.records.RewardsReportRecord;
+import com.bisaga.sakila.dbmodel.tables.records.SchemaVersionRecord;
 import com.bisaga.sakila.dbmodel.tables.records.StaffRecord;
 import com.bisaga.sakila.dbmodel.tables.records.StoreRecord;
 
@@ -95,6 +97,7 @@ public class Keys {
     public static final UniqueKey<LanguageRecord> LANGUAGE_PKEY = UniqueKeys0.LANGUAGE_PKEY;
     public static final UniqueKey<PaymentRecord> PAYMENT_PKEY = UniqueKeys0.PAYMENT_PKEY;
     public static final UniqueKey<RentalRecord> RENTAL_PKEY = UniqueKeys0.RENTAL_PKEY;
+    public static final UniqueKey<SchemaVersionRecord> SCHEMA_VERSION_PK = UniqueKeys0.SCHEMA_VERSION_PK;
     public static final UniqueKey<StaffRecord> STAFF_PKEY = UniqueKeys0.STAFF_PKEY;
     public static final UniqueKey<StoreRecord> STORE_PKEY = UniqueKeys0.STORE_PKEY;
 
@@ -156,6 +159,7 @@ public class Keys {
         public static final UniqueKey<LanguageRecord> LANGUAGE_PKEY = createUniqueKey(Language.LANGUAGE, "language_pkey", Language.LANGUAGE.LANGUAGE_ID);
         public static final UniqueKey<PaymentRecord> PAYMENT_PKEY = createUniqueKey(Payment.PAYMENT, "payment_pkey", Payment.PAYMENT.PAYMENT_ID);
         public static final UniqueKey<RentalRecord> RENTAL_PKEY = createUniqueKey(Rental.RENTAL, "rental_pkey", Rental.RENTAL.RENTAL_ID);
+        public static final UniqueKey<SchemaVersionRecord> SCHEMA_VERSION_PK = createUniqueKey(SchemaVersion.SCHEMA_VERSION, "schema_version_pk", SchemaVersion.SCHEMA_VERSION.INSTALLED_RANK);
         public static final UniqueKey<StaffRecord> STAFF_PKEY = createUniqueKey(Staff.STAFF, "staff_pkey", Staff.STAFF.STAFF_ID);
         public static final UniqueKey<StoreRecord> STORE_PKEY = createUniqueKey(Store.STORE, "store_pkey", Store.STORE.STORE_ID);
     }

@@ -9,9 +9,7 @@ import spark.Response;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
-import javax.inject.Singleton;
 
-@Singleton
 public class RequestScopeInjectionFilter implements Filter {
     private static final Logger LOG = LoggerFactory.getLogger(RequestScopeInjectionFilter.class);
 

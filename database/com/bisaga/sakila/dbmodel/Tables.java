@@ -26,6 +26,7 @@ import com.bisaga.sakila.dbmodel.tables.Rental;
 import com.bisaga.sakila.dbmodel.tables.RewardsReport;
 import com.bisaga.sakila.dbmodel.tables.SalesByFilmCategory;
 import com.bisaga.sakila.dbmodel.tables.SalesByStore;
+import com.bisaga.sakila.dbmodel.tables.SchemaVersion;
 import com.bisaga.sakila.dbmodel.tables.Staff;
 import com.bisaga.sakila.dbmodel.tables.StaffList;
 import com.bisaga.sakila.dbmodel.tables.Store;
@@ -228,6 +229,11 @@ public class Tables {
      * The table <code>public.sales_by_store</code>.
      */
     public static final SalesByStore SALES_BY_STORE = com.bisaga.sakila.dbmodel.tables.SalesByStore.SALES_BY_STORE;
+
+    /**
+     * The table <code>public.schema_version</code>.
+     */
+    public static final SchemaVersion SCHEMA_VERSION = com.bisaga.sakila.dbmodel.tables.SchemaVersion.SCHEMA_VERSION;
 
     /**
      * The table <code>public.staff</code>.

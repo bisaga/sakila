@@ -17,6 +17,7 @@ import com.bisaga.sakila.dbmodel.tables.Inventory;
 import com.bisaga.sakila.dbmodel.tables.Language;
 import com.bisaga.sakila.dbmodel.tables.Payment;
 import com.bisaga.sakila.dbmodel.tables.Rental;
+import com.bisaga.sakila.dbmodel.tables.SchemaVersion;
 import com.bisaga.sakila.dbmodel.tables.Staff;
 import com.bisaga.sakila.dbmodel.tables.Store;
 
@@ -73,6 +74,8 @@ public class Indexes {
     public static final Index IDX_FK_INVENTORY_ID = Indexes0.IDX_FK_INVENTORY_ID;
     public static final Index IDX_UNQ_RENTAL_RENTAL_DATE_INVENTORY_ID_CUSTOMER_ID = Indexes0.IDX_UNQ_RENTAL_RENTAL_DATE_INVENTORY_ID_CUSTOMER_ID;
     public static final Index RENTAL_PKEY = Indexes0.RENTAL_PKEY;
+    public static final Index SCHEMA_VERSION_PK = Indexes0.SCHEMA_VERSION_PK;
+    public static final Index SCHEMA_VERSION_S_IDX = Indexes0.SCHEMA_VERSION_S_IDX;
     public static final Index STAFF_PKEY = Indexes0.STAFF_PKEY;
     public static final Index IDX_UNQ_MANAGER_STAFF_ID = Indexes0.IDX_UNQ_MANAGER_STAFF_ID;
     public static final Index STORE_PKEY = Indexes0.STORE_PKEY;
@@ -111,6 +114,8 @@ public class Indexes {
         public static Index IDX_FK_INVENTORY_ID = createIndex("idx_fk_inventory_id", Rental.RENTAL, new OrderField[] { Rental.RENTAL.INVENTORY_ID }, false);
         public static Index IDX_UNQ_RENTAL_RENTAL_DATE_INVENTORY_ID_CUSTOMER_ID = createIndex("idx_unq_rental_rental_date_inventory_id_customer_id", Rental.RENTAL, new OrderField[] { Rental.RENTAL.RENTAL_DATE, Rental.RENTAL.INVENTORY_ID, Rental.RENTAL.CUSTOMER_ID }, true);
         public static Index RENTAL_PKEY = createIndex("rental_pkey", Rental.RENTAL, new OrderField[] { Rental.RENTAL.RENTAL_ID }, true);
+        public static Index SCHEMA_VERSION_PK = createIndex("schema_version_pk", SchemaVersion.SCHEMA_VERSION, new OrderField[] { SchemaVersion.SCHEMA_VERSION.INSTALLED_RANK }, true);
+        public static Index SCHEMA_VERSION_S_IDX = createIndex("schema_version_s_idx", SchemaVersion.SCHEMA_VERSION, new OrderField[] { SchemaVersion.SCHEMA_VERSION.SUCCESS }, false);
         public static Index STAFF_PKEY = createIndex("staff_pkey", Staff.STAFF, new OrderField[] { Staff.STAFF.STAFF_ID }, true);
         public static Index IDX_UNQ_MANAGER_STAFF_ID = createIndex("idx_unq_manager_staff_id", Store.STORE, new OrderField[] { Store.STORE.MANAGER_STAFF_ID }, true);
         public static Index STORE_PKEY = createIndex("store_pkey", Store.STORE, new OrderField[] { Store.STORE.STORE_ID }, true);

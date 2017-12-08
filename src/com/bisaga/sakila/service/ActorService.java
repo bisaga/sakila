@@ -1,37 +1,57 @@
 package com.bisaga.sakila.service;
 
 import com.bisaga.sakila.dagger.RequestScope;
-import com.bisaga.sakila.dbmodel.tables.daos.ActorDao;
-import com.bisaga.sakila.dbmodel.tables.pojos.Actor;
+
+import com.bisaga.sakila.dbmodel.tables.records.ActorRecord;
+import com.bisaga.sakila.server.QueryBuildParams;
+
 import org.jooq.DSLContext;
+
+import org.jooq.Query;
+import org.jooq.Result;
+import org.jooq.SelectQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.bisaga.sakila.dbmodel.tables.Actor.ACTOR;
 
 @RequestScope
 public class ActorService {
     private static final Logger LOG = LoggerFactory.getLogger(ActorService.class);
 
     private final DSLContext db;
-    private final ActorDao actorDao;
 
     @Inject
-    public ActorService(DSLContext db, ActorDao actorDao) {
+    public ActorService(DSLContext db) {
         this.db = db;
-        this.actorDao = actorDao;
     }
 
-    public List<Actor> getActors() {
-        return actorDao.findAll();
+    public int insertActor(ActorRecord actor) {
+        return actor.insert();
     }
 
-    public List<Actor> getActors(int page) {
-        return actorDao.findAll();
+    public int updateActor(ActorRecord actor) {
+        return actor.update();
     }
 
-    public Actor getActor(int id) {
-        return actorDao.fetchOneByActorId(id);
+    public void deleteActor(ActorRecord actor) {
+
+        //actorDao.delete(actor);
     }
+
+    public ActorRecord getActor(int id) {
+        return db.selectFrom(ACTOR)
+                .where(ACTOR.ACTOR_ID.eq(id))
+                .fetchOne();
+    }
+
+    public Result<ActorRecord> findAllActors() {
+        return db.selectFrom(ACTOR).fetch();
+    }
+
+
 }

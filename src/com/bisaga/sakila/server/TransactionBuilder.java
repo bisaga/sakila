@@ -14,19 +14,22 @@ import java.sql.SQLException;
 public final class TransactionBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(TransactionBuilder.class);
     private final HikariDataSource dataSource;        // Hikari Connection Pool
-    private final ConfigProperties configProperties;
 
     @Inject
-    public TransactionBuilder(HikariDataSource dataSource, ConfigProperties configProperties) {
+    public TransactionBuilder(HikariDataSource dataSource) {
         this.dataSource = dataSource;
-        this.configProperties = configProperties;
     }
 
     public final Transaction create(boolean autoCommit) {
         try {
-            Connection connection = dataSource.getConnection();
-            connection.setAutoCommit(autoCommit);
-            return new Transaction(connection);
+            Transaction tx = RequestSession.getTransaction();
+            if(tx == null) {
+                Connection connection = dataSource.getConnection();
+                connection.setAutoCommit(autoCommit);
+                tx = new Transaction(connection);
+                RequestSession.setTransaction(tx);
+            }
+            return tx;
         } catch (SQLException e) {
             throw new DatabaseException(e);
         }

@@ -1,9 +1,10 @@
 package com.bisaga.sakila.dagger;
 
-import com.bisaga.sakila.dbmodel.tables.daos.ActorDao;
 import com.bisaga.sakila.server.JooqConfigurationBuilder;
+import com.bisaga.sakila.server.RequestSession;
 import com.bisaga.sakila.server.Transaction;
 import com.bisaga.sakila.server.TransactionBuilder;
+import com.google.gson.JsonParser;
 import dagger.Module;
 import dagger.Provides;
 import org.jooq.Configuration;
@@ -38,8 +39,8 @@ public class RequestModule {
     }
 
     @Provides
-    public static ActorDao provideActorDao(Configuration configuration){
-        return new ActorDao(configuration);
-    }
+    @RequestScope
+    public JsonParser provideJSONParser() {return  new JsonParser();}
+
 
 }

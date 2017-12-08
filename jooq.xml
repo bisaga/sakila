@@ -40,8 +40,8 @@
         </database>
 
         <generate>
-            <pojos>true</pojos>
-            <daos>true</daos>
+            <pojos>false</pojos>
+            <daos>false</daos>
         </generate>
 
         <target>

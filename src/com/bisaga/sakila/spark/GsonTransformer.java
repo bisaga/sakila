@@ -1,6 +1,7 @@
-package com.bisaga.sakila.server;
+package com.bisaga.sakila.spark;
 
 import com.google.gson.Gson;
+import org.jooq.Result;
 import spark.ResponseTransformer;
 
 import javax.inject.Inject;
