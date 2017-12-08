@@ -1,4 +1,5 @@
-package com.bisaga.sakila.service;
+package com.bisaga.sakila.domain;
+import com.bisaga.sakila.service.QueryService;
 import org.jooq.DSLContext;
 
 import javax.inject.Inject;
