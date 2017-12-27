@@ -3,7 +3,7 @@ package com.bisaga.sakila.resource;
 import com.bisaga.sakila.dagger.RequestScope;
 import com.bisaga.sakila.dbmodel.tables.records.ActorRecord;
 import com.bisaga.sakila.errors.ResourceNotFoundException;
-import com.bisaga.sakila.server.QueryBuildParams;
+import com.bisaga.sakila.service.QueryBuildParams;
 import com.bisaga.sakila.server.RecordsAffected;
 import com.bisaga.sakila.server.Transaction;
 import com.bisaga.sakila.domain.ActorQueryService;

@@ -47,7 +47,8 @@ public final class Transaction {
 
     public final void commit() {
         try {
-            connection.commit();
+            if(txOpen && !this.isAutoCommit())
+                connection.commit();
             txOpen = false;
         } catch (SQLException e) {
             throw new DatabaseException(e);
@@ -56,7 +57,9 @@ public final class Transaction {
 
     public final void rollback() {
         try {
-            connection.rollback();
+            if(txOpen && !this.isAutoCommit())
+                connection.rollback();
+
             txOpen = false;
         } catch (SQLException e) {
             throw new DatabaseException(e);

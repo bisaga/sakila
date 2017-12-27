@@ -1,4 +1,4 @@
-package com.bisaga.sakila.server;
+package com.bisaga.sakila.service;
 
 import com.google.gson.Gson;
 
@@ -12,14 +12,16 @@ public class QueryBuildParams {
     public static class SortField {
         private String tableName;
         private String fieldName;
+        private boolean unique;
         private SortOrder order;
-        private String value;
+        private Object value;
 
-        public SortField(String tableName, String fieldName, SortOrder order, String value) {
+        public SortField(String tableName, String fieldName, SortOrder order, Object value, boolean unique) {
             this.tableName = tableName;
             this.fieldName = fieldName;
             this.order = order;
             this.value = value;
+            this.unique = unique;
         }
 
         public String getTableName() {
@@ -31,18 +33,19 @@ public class QueryBuildParams {
         public SortOrder getOrder() {
             return order;
         }
-        public String getValue() {
+        public Object getValue() {
             return value;
         }
+        public boolean isUnique() { return unique; }
     }
 
     public static class ExpressionField {
         private String tableName;
         private String fieldName;
         private ExpressionOperator operator;
-        private String value;
+        private Object value;
 
-        public ExpressionField(String tableName, String fieldName, ExpressionOperator operator, String value) {
+        public ExpressionField(String tableName, String fieldName, ExpressionOperator operator, Object value) {
             this.tableName = tableName;
             this.fieldName = fieldName;
             this.operator = operator;
@@ -58,7 +61,7 @@ public class QueryBuildParams {
         public ExpressionOperator getOperator() {
             return operator;
         }
-        public String getValue() {
+        public Object getValue() {
             return value;
         }
     }
@@ -69,7 +72,6 @@ public class QueryBuildParams {
     private int rows = 25;
     private List<QueryBuildParams.SortField> sortFields;
     private List<QueryBuildParams.ExpressionField> expressionFields;
-
 
     public static QueryBuildParams deserialize(String json) {
         Gson gson = new Gson();

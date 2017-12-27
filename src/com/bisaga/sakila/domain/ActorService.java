@@ -45,5 +45,4 @@ public class ActorService {
         return db.selectFrom(ACTOR).fetch();
     }
 
-
 }

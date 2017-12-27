@@ -2,7 +2,7 @@ package com.bisaga.sakila.spark;
 
 import com.bisaga.sakila.Application;
 import com.bisaga.sakila.server.RecordTransformer;
-import com.bisaga.sakila.server.RestCodes;
+import com.bisaga.sakila.server.HttpCodes;
 import com.bisaga.sakila.server.ResultTransformer;
 import spark.ResponseTransformer;
 import javax.inject.Inject;
@@ -42,21 +42,21 @@ public class ResourceRegistry {
 
     public void registerRoutes(){
 
-        get("/actor/:id", RestCodes.APPLICATION_JSON,
+        get("/actor/:id", HttpCodes.APPLICATION_JSON,
                 // the resource (actorResource) is from another scope (sub-component scope is not visible from the
                 // parent scope). We really want to use new instance for each user request, no singletons here !
                 (req, res) -> Application.applicationComponent.requestComponent().actorResource().getActor(req, res),
                 recordTransformer);
 
-        put("/actor", RestCodes.APPLICATION_JSON,
+        put("/actor", HttpCodes.APPLICATION_JSON,
                 (req, res) -> Application.applicationComponent.requestComponent().actorResource().putActor(req, res),
                 responseTransformer);
 
-        post("/actors", RestCodes.APPLICATION_JSON,
+        post("/actors", HttpCodes.APPLICATION_JSON,
                 (req, res) -> Application.applicationComponent.requestComponent().actorResource().viewActors(req, res),
                 resultTransformer);
 
-        get("/allactors", RestCodes.APPLICATION_JSON,
+        get("/allactors", HttpCodes.APPLICATION_JSON,
                 (req, res) -> Application.applicationComponent.requestComponent().actorResource().getAllActors(req, res),
                 resultTransformer);
 

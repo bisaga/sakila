@@ -2,7 +2,7 @@ package com.bisaga.sakila.server;
 
 import spark.Response;
 
-public class RestCodes
+public class HttpCodes
 {
     // 2xx Success
     public static final int OK = 200;
@@ -43,7 +43,7 @@ public class RestCodes
     }
 
     public static void setStatus(Response response, int status) {
-        RestCodes.setStatus(response, status, RestCodes.APPLICATION_JSON );
+        HttpCodes.setStatus(response, status, HttpCodes.APPLICATION_JSON );
     }
 
 }
